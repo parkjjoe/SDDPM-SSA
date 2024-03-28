@@ -6,9 +6,9 @@ from torch import nn
 from torch.nn import init
 from torch.nn import functional as F
 from spikingjelly.activation_based import functional, surrogate
-# from spikingjelly.activation_based.neuron import LIFNode as IFNode
-# from spikingjelly.activation_based.neuron import ParametricLIFNode as IFNode
-from spikingjelly.activation_based.neuron import IFNode as IFNode
+from spikingjelly.activation_based.neuron import LIFNode
+from spikingjelly.activation_based.neuron import ParametricLIFNode
+from spikingjelly.activation_based.neuron import IFNode
 
 import os
 
@@ -71,7 +71,8 @@ class TimeEmbedding(nn.Module):
         self.timembedding = nn.Sequential(
             nn.Embedding.from_pretrained(emb),
             nn.Linear(d_model, dim),
-            Swish(),
+            #Swish(),
+            LIFNode(surrogate_function=surrogate.ATan()),
             nn.Linear(dim, dim),
         )
         self.initialize()
@@ -354,7 +355,7 @@ if __name__ == '__main__':
     # ckpt = torch.load(os.path.join('/home/jiahang/jiahang/Diffusion_with_spk/pytorch-ddpm/logs/threshold_test', 'snnbest.pt'))
     # model.load_state_dict(ckpt['net_model'])
 
-    ckpt = torch.load(os.path.join('/home/jiahang/jiahang/Diffusion_with_spk/pytorch-ddpm/logs/final_thres_log/45000ckpt.pt'))
+    ckpt = torch.load(os.path.join('/home/parkjoe/PycharmProjects/sddpm-ssa/logs/100000ckpt.pt'))
     model.load_state_dict(ckpt['net_model'])
 
     x = torch.randn(batch_size, 3, 32, 32).cuda()

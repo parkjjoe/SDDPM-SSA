@@ -25,7 +25,7 @@ from score.both import get_inception_and_fid_score
 ## argument parsing ##
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('--seed', default=42, type=int, help='seed')
+parser.add_argument('--seed', default=42, type=int, help='seed') # seed value when generating
 parser.add_argument('--train', action='store_true', default=False, help='train from scratch')
 parser.add_argument('--eval', action='store_true', default=False, help='load ckpt.pt and evaluate FID and IS')
 parser.add_argument('--dataset', type=str, default='cifar10', help='dataset name')
@@ -62,8 +62,8 @@ parser.add_argument('--logdir', default='./log', help='log directory')
 parser.add_argument('--sample_size', type=int,default=64, help="sampling size of images")
 parser.add_argument('--sample_step', type=int,default=5000, help='frequency of sampling')
 # Evaluation
-parser.add_argument('--save_step', type=int,default=10, help='frequency of saving checkpoints, 0 to disable during training')
-parser.add_argument('--eval_step', type=int,default=10, help='frequency of evaluating model, 0 to disable during training')
+parser.add_argument('--save_step', type=int,default=500000, help='frequency of saving checkpoints, 0 to disable during training')
+parser.add_argument('--eval_step', type=int,default=500000, help='frequency of evaluating model, 0 to disable during training')
 parser.add_argument('--num_images', type=int,default=50000, help='the number of generated images for evaluation')
 parser.add_argument('--fid_use_torch', default=True, help='calculate IS and FID on gpu') #########
 parser.add_argument('--fid_cache', default='./stats/cifar10.train.npz', help='FID cache') # path to the cache file to use for FID calculations
@@ -130,7 +130,7 @@ def evaluate(sampler, model):
 def train():
     if args.dataset == 'cifar10':
         dataset = CIFAR10(
-            root='/home/parkjoe/PycharmProjects/sddpm_ssa/dataset/Cifar10', train=True, download=True,
+            root='/home/parkjoe/PycharmProjects/sddpm-ssa/dataset/cifar10', train=True, download=True,
             transform=transforms.Compose([
                 transforms.RandomHorizontalFlip(),
                 transforms.ToTensor(),
@@ -145,7 +145,7 @@ def train():
         torchvision.transforms.Resize((64,64)),
         torchvision.transforms.ToTensor(),
         SetRange])
-        dataset = torchvision.datasets.ImageFolder(root='/home/parkjoe/PycharmProjects/sddpm_ssa/dataset/CelebA/celeba',
+        dataset = torchvision.datasets.ImageFolder(root='/home/parkjoe/PycharmProjects/sddpm-ssa/dataset/CelebA/celeba',
                                                    transform=transform)
         
     elif args.dataset == 'fashion-mnist':
@@ -154,7 +154,7 @@ def train():
         torchvision.transforms.Resize((32,32)),
         torchvision.transforms.ToTensor(),
         SetRange])
-        dataset = torchvision.datasets.FashionMNIST(root='/home/parkjoe/PycharmProjects/sddpm_ssa/dataset/FashionMnist',
+        dataset = torchvision.datasets.FashionMNIST(root='/home/parkjoe/PycharmProjects/sddpm-ssa/dataset/FashionMnist',
                                             train=True, 
                                             download=True, 
                                             transform=transform)
@@ -165,7 +165,7 @@ def train():
         torchvision.transforms.Resize((32,32)),
         torchvision.transforms.ToTensor(),
         SetRange])
-        dataset = torchvision.datasets.MNIST(root='/home/parkjoe/PycharmProjects/sddpm_ssa/dataset/Mnist',
+        dataset = torchvision.datasets.MNIST(root='/home/parkjoe/PycharmProjects/sddpm-ssa/dataset/Mnist',
                                             train=True, 
                                             download=True, 
                                             transform=transform)
