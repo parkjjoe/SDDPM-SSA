@@ -65,7 +65,7 @@ parser.add_argument('--sample_step', type=int,default=5000, help='frequency of s
 parser.add_argument('--save_step', type=int,default=10, help='frequency of saving checkpoints, 0 to disable during training')
 parser.add_argument('--eval_step', type=int,default=10, help='frequency of evaluating model, 0 to disable during training')
 parser.add_argument('--num_images', type=int,default=50000, help='the number of generated images for evaluation')
-parser.add_argument('--fid_use_torch', default=True, help='calculate IS and FID on gpu') #########
+parser.add_argument('--fid_use_torch', default=True, help='calculate IS and FID on gpu') ###
 parser.add_argument('--fid_cache', default='./stats/cifar10.train.npz', help='FID cache') # path to the cache file to use for FID calculations
 parser.add_argument('--num_step', type=int,default=1000, help='number of sampling steps')
 parser.add_argument('--pre_trained_path', default='./pth/1224_4T.pt', help='FID cache')
